@@ -2,35 +2,37 @@ package calls;
 
 import common.GsonFunctions;
 import common.RestAssuredFunctions;
+import constants.ApiEndpoints;
 import data.models.*;
+import io.restassured.response.Response;
 
 public class CrocodilesAPI {
 
     public static LoginResponse login(LoginRequest loginRequest) {
-        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.post("auth/token/login/", loginRequest), LoginResponse.class);
+        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.post(ApiEndpoints.LOGIN, loginRequest), LoginResponse.class);
     }
 
     public static CreateCrocodileResponse createNewCrocodile(String accessToken, CreateCrocodileRequest createCrocodileRequest) {
-        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.post("my/crocodiles/", accessToken, createCrocodileRequest), CreateCrocodileResponse.class);
+        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.post(ApiEndpoints.USERS, accessToken, createCrocodileRequest), CreateCrocodileResponse.class);
     }
 
     public static GetPublicCrocodileResponse[] getPublicCrocodileResponse() {
-        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.get("public/crocodiles/"), GetPublicCrocodileResponse[].class);
+        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.get(ApiEndpoints.PUBLIC), GetPublicCrocodileResponse[].class);
     }
 
     public static GetPublicCrocodileResponse getCrocodile(String accessToken, Integer id) {
-        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.get("my/crocodiles/" + id, accessToken), GetPublicCrocodileResponse.class);
+        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.get(ApiEndpoints.SINGLE_USER(id), accessToken), GetPublicCrocodileResponse.class);
     }
 
     public static CreateCrocodileResponse putCrocodile(String accessToken, Integer id, CreateCrocodileRequest createCrocodileRequest) {
-        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.put("my/crocodiles/" + id, accessToken, createCrocodileRequest), CreateCrocodileResponse.class);
+        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.put(ApiEndpoints.SINGLE_USER(id), accessToken, createCrocodileRequest), CreateCrocodileResponse.class);
     }
 
     public static CreateCrocodileResponse patchCrocodile(String accessToken, Integer id, CreateCrocodileRequest createCrocodileRequest) {
-        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.patch("my/crocodiles/" + id, accessToken, createCrocodileRequest), CreateCrocodileResponse.class);
+        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.patch(ApiEndpoints.SINGLE_USER(id), accessToken, createCrocodileRequest), CreateCrocodileResponse.class);
     }
 
     public static GetPublicCrocodileResponse deleteCrocodile(String accessToken, Integer id) {
-        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.delete("my/crocodiles/" + id, accessToken), GetPublicCrocodileResponse.class);
+        return GsonFunctions.parseSuccessResponseToModel(RestAssuredFunctions.delete(ApiEndpoints.SINGLE_USER(id), accessToken), GetPublicCrocodileResponse.class);
     }
 }

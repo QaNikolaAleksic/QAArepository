@@ -2,6 +2,7 @@ package test.common;
 
 import calls.CrocodilesAPI;
 import data.models.LoginRequest;
+import environment.ConfigSetup;
 import io.restassured.RestAssured;
 import org.testng.annotations.BeforeClass;
 
@@ -11,7 +12,7 @@ public class TestBase {
 
     @BeforeClass
     public void beforeClass() {
-        RestAssured.baseURI = "https://test-api.k6.io";
-        accessToken = CrocodilesAPI.login(new LoginRequest("nikolaHTEC", "Kengan1994!")).getAccess();
+        RestAssured.baseURI = ConfigSetup.getBaseUrl();
+        accessToken = CrocodilesAPI.login(new LoginRequest(ConfigSetup.getMainUser(), ConfigSetup.getDefaultPsw())).getAccess();
     }
 }
