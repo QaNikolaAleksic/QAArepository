@@ -11,6 +11,6 @@ public class ValueChoosers {
         listOfPosition.add("M");
         listOfPosition.add("F");
 
-        return listOfPosition.get(RandomUtils.nextInt(0, listOfPosition.size()));
+        return listOfPosition.get(RandomUtils.nextInt(0, listOfPosition.size() - 1));
     }
 }
