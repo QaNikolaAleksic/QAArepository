@@ -4,8 +4,10 @@ import calls.CrocodilesAPI;
 import data.models.CreateCrocodileRequest;
 import data.models.CreateCrocodileResponse;
 import data.models.GetPublicCrocodileResponse;
+import data.provider.CrocodileProvider;
 import jdk.jfr.Description;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.asserts.CrocodileAsserts;
 import test.common.TestBase;
@@ -13,6 +15,13 @@ import test.common.TestBase;
 public class CrocodileTests extends TestBase {
 
     public CrocodileAsserts crocodileAsserts = new CrocodileAsserts();
+    CreateCrocodileRequest createCrocodileRequest;
+    String idOfCreatedUser;
+
+    @BeforeMethod
+    public void prepareTestData() {
+        createCrocodileRequest = CrocodileProvider.prepareCrocodileRequest();
+    }
 
     @Test
     public void loginTest() {
@@ -22,7 +31,6 @@ public class CrocodileTests extends TestBase {
     @Test
     @Description("verify crocodile is created")
     public void createCrocodileTest() {
-        CreateCrocodileRequest createCrocodileRequest = new CreateCrocodileRequest("Nikola", "M", "2020-12-12");
 
         CreateCrocodileResponse createCrocodileResponse = CrocodilesAPI.createNewCrocodile(accessToken, createCrocodileRequest);
 
@@ -41,7 +49,6 @@ public class CrocodileTests extends TestBase {
     @Test
     @Description("Get crocodile by ID")
     public void getCrocodile() {
-        CreateCrocodileRequest createCrocodileRequest = new CreateCrocodileRequest("Nikola", "M", "2020-12-12");
 
         CreateCrocodileResponse createCrocodileResponse = CrocodilesAPI.createNewCrocodile(accessToken, createCrocodileRequest);
 
@@ -53,7 +60,6 @@ public class CrocodileTests extends TestBase {
     @Test
     @Description("verify crocodile is updated")
     public void putCrocodile() {
-        CreateCrocodileRequest createCrocodileRequest = new CreateCrocodileRequest("Nikola", "M", "2020-12-12");
 
         CreateCrocodileResponse createCrocodileResponse = CrocodilesAPI.createNewCrocodile(accessToken, createCrocodileRequest);
 
@@ -67,7 +73,6 @@ public class CrocodileTests extends TestBase {
     @Test
     @Description("verify crocodile's birth date is patched")
     public void patchCrocodile() {
-        CreateCrocodileRequest createCrocodileRequest = new CreateCrocodileRequest("Nikola", "M", "2020-12-12");
 
         CreateCrocodileResponse createCrocodileResponse = CrocodilesAPI.createNewCrocodile(accessToken, createCrocodileRequest);
 
@@ -81,10 +86,9 @@ public class CrocodileTests extends TestBase {
     @Test
     @Description("verify if crocodile is deleted")
     public void deleteCrocodile() {
-        CreateCrocodileRequest createCrocodileRequest = new CreateCrocodileRequest("Nikola", "M", "2020-12-12");
 
         CreateCrocodileResponse createCrocodileResponse = CrocodilesAPI.createNewCrocodile(accessToken, createCrocodileRequest);
-        
+
         CrocodilesAPI.deleteCrocodile(accessToken, createCrocodileResponse.getId());
 
         GetPublicCrocodileResponse getCrocodileResponse = CrocodilesAPI.getCrocodile(accessToken, createCrocodileResponse.getId());
